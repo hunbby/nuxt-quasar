@@ -1,0 +1,53 @@
+<template>
+  <q-scroll-area class="fit">
+    <q-list>
+      <template v-for="(menuItem, index) in menuList" :key="index">
+        <q-item
+          clickable
+          :active="isRouteActive(menuItem.url)"
+          v-ripple
+          @click="pageMove(menuItem.url)"
+        >
+          <q-item-section avatar>
+            <q-icon :name="menuItem.icon" />
+          </q-item-section>
+          <q-item-section>
+            {{ menuItem.label }}
+          </q-item-section>
+        </q-item>
+        <q-separator :key="'sep' + index" v-if="menuItem.separator" />
+      </template>
+    </q-list>
+  </q-scroll-area>
+</template>
+
+<script setup lang="ts">
+const route = useRoute();
+const router = useRouter();
+const menuList = ref([
+  {
+    icon: "inbox",
+    label: "Inbox",
+    separator: true,
+    url: "/",
+  },
+  {
+    icon: "send",
+    label: "Outbox",
+    separator: false,
+    url: "/about",
+  },
+]);
+
+const pageMove = (url: string) => {
+  router.push({ path: url });
+};
+const isRouteActive = (url: string) => {
+  if (route.path == url) {
+    return true;
+  } else {
+    return false;
+  }
+};
+</script>
+<style></style>
