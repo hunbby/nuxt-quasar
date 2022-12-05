@@ -1,4 +1,5 @@
 <template>
+  <TuiEditor></TuiEditor>
   <q-page class="row items-center justify-evenly">
     <div>
       <div>counter:{{ main.counter }}</div>

@@ -2,7 +2,7 @@
   <div ref="editorDiv"></div>
 </template>
 <script setup lang="ts">
-import { defineProps, PropType } from "vue";
+import { PropType, } from "vue";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/editor";
 
@@ -28,6 +28,10 @@ const props = defineProps({
     default: true,
   },
 });
+
+const emit = defineEmits([
+    'update:modelValue'
+])
 
 const { modelValue } = toRefs(props);
 let editor: Editor;
