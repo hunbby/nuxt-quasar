@@ -66,6 +66,30 @@ const menuList = ref([
     separator: false,
     url: "/about",
   },
+  {
+    icon: "table_chart",
+    label: "Board",
+    separator: false,
+    url: "/board",
+  },
+  {
+    icon: "table_chart",
+    label: "Test1",
+    separator: false,
+    url: "/test1",
+  },
+  {
+    icon: "table_chart",
+    label: "Test2",
+    separator: false,
+    url: "/test2",
+  },
+  {
+    icon: "table_chart",
+    label: "Test3",
+    separator: false,
+    url: "/test3",
+  },
 ]);
 
 const pageMove = (url: string) => {
