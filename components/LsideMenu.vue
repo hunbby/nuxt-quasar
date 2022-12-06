@@ -86,6 +86,8 @@ const menuList = ref([
   },
 ]);
 
+onMounted(() => {});
+
 const pageMove = (url: string) => {
   router.push({ path: url });
 };
