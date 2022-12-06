@@ -29,11 +29,12 @@
         multiple
         use-chips
         use-input
-        behavior="menu"
+        input-debounce="0"
         v-model="modelMultiple"
         :options="tags"
         :dense="dense"
         :options-dense="denseOpts"
+        @new-value="createValue"
         @filter="filterFn"
         style="padding-bottom: 5px"
         placeholder="태그를 입력해주세요"
@@ -78,17 +79,24 @@ const stringOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
 const tags = ref(stringOptions);
 
 const filterFn = (val: any, update: any) => {
-  if (val === "") {
-    update(() => {
-      tags.value = stringOptions;
-    });
-    return
-  }
-
   update(() => {
-    const needle = val.toLowerCase()
-    tags.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-  })
+    if (val === "") {
+      tags.value = stringOptions;
+    } else {
+      const needle = val.toLowerCase();
+      tags.value = stringOptions.filter(
+        (v) => v.toLowerCase().indexOf(needle) > -1
+      );
+    }
+  });
+};
+
+const createValue = (val: any, done: any) => {
+  if (val.length > 2) {
+    if (!stringOptions.includes(val)) {
+      done(val, "add-unique");
+    }
+  }
 };
 
 const writeProc = () => {
