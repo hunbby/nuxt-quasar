@@ -14,7 +14,13 @@
       </div>
     </div>
     <div class="q-pa-sm row justify-end">
-      <q-btn icon="create" color="white" text-color="black" label="글쓰기" />
+      <q-btn
+        icon="create"
+        color="white"
+        text-color="black"
+        label="글쓰기"
+        @click="moveWritePage"
+      />
     </div>
     <div class="q-pa-sm flex flex-center">
       <q-pagination
@@ -35,6 +41,10 @@
 import data from "@/data/data.json";
 const users = data.slice(0, 5);
 const current = ref(3);
+const router = useRouter();
+const moveWritePage = () => {
+  router.push({ path: "/board/write" });
+};
 </script>
 <style lang="sass">
 .va-table

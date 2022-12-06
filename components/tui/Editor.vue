@@ -2,7 +2,7 @@
   <div ref="editorDiv"></div>
 </template>
 <script setup lang="ts">
-import { PropType, } from "vue";
+import { PropType } from "vue";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/editor";
 
@@ -29,9 +29,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits([
-    'update:modelValue'
-])
+const emit = defineEmits(["update:modelValue"]);
 
 const { modelValue } = toRefs(props);
 let editor: Editor;
@@ -79,8 +77,19 @@ onMounted(() => {
   }
 });
 
+// 값 변화 감시
 watch(modelValue, () => {
   editor.setMarkdown(modelValue.value);
+});
+
+// html 값으로 반환
+const getHtmlValue = () => {
+  return editor.getHTML();
+};
+
+// 함수 export 개념과 비슷
+defineExpose({
+  getHtmlValue,
 });
 </script>
 <style>
