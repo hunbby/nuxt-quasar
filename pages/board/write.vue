@@ -4,7 +4,7 @@
       <q-select
         style="padding-bottom: 5px"
         outlined
-        v-model="model"
+        v-model="boardList"
         :options="options"
         :dense="dense"
         :options-dense="denseOpts"
@@ -26,16 +26,16 @@
       </q-input>
       <q-select
         outlined
-        multiple
-        use-chips
         use-input
+        use-chips
+        multiple
         input-debounce="0"
-        v-model="modelMultiple"
-        :options="tags"
+        @new-value="createValue"
+        :options="filterOptions"
+        @filter="filterFn"
+        v-model="tagList"
         :dense="dense"
         :options-dense="denseOpts"
-        @new-value="createValue"
-        @filter="filterFn"
         style="padding-bottom: 5px"
         placeholder="태그를 입력해주세요"
       >
@@ -68,23 +68,23 @@ const modelValue = ref("test");
 const editor = ref();
 const router = useRouter();
 const options = ["Vue", "Java", "JavaScript", "Spring Boot"];
-const model = ref(options[0]);
-const modelMultiple = ref([]);
+const boardList = ref(options[0]);
+const tagList = ref([]);
 const dense = ref(true);
 const denseOpts = ref(false);
 const titleText = ref("");
 
-const stringOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
+const tagOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
 
-const tags = ref(stringOptions);
+const filterOptions = ref(tagOptions);
 
 const filterFn = (val: any, update: any) => {
   update(() => {
     if (val === "") {
-      tags.value = stringOptions;
+      filterOptions.value = tagOptions;
     } else {
       const needle = val.toLowerCase();
-      tags.value = stringOptions.filter(
+      filterOptions.value = tagOptions.filter(
         (v) => v.toLowerCase().indexOf(needle) > -1
       );
     }
@@ -93,7 +93,7 @@ const filterFn = (val: any, update: any) => {
 
 const createValue = (val: any, done: any) => {
   if (val.length > 2) {
-    if (!stringOptions.includes(val)) {
+    if (!tagOptions.includes(val)) {
       done(val, "add-unique");
     }
   }
@@ -101,7 +101,10 @@ const createValue = (val: any, done: any) => {
 
 const writeProc = () => {
   const va = editor.value.getHtmlValue();
-  console.log(va);
+  console.log('boardList',boardList.value);
+  console.log('editor',va);
+  console.log('titleText', titleText.value);
+  console.log('modelMultiple',tagList.value);
 };
 
 const moveList = () => {
