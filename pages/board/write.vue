@@ -24,17 +24,24 @@
           <q-icon name="title" />
         </template>
       </q-input>
-      <q-input
-        style="padding-bottom: 5px"
+      <q-select
         outlined
-        v-model="tagText"
+        multiple
+        use-chips
+        use-input
+        behavior="menu"
+        v-model="modelMultiple"
+        :options="tags"
         :dense="dense"
-        placeholder="태그을 입력해주세요"
+        :options-dense="denseOpts"
+        @filter="filterFn"
+        style="padding-bottom: 5px"
+        placeholder="태그를 입력해주세요"
       >
         <template v-slot:prepend>
           <q-icon name="tag" />
         </template>
-      </q-input>
+      </q-select>
       <TuiEditor ref="editor" v-model="modelValue" height="590px"></TuiEditor>
       <div class="q-pa-sm row justify-between">
         <q-btn
@@ -61,14 +68,34 @@ const editor = ref();
 const router = useRouter();
 const options = ["Vue", "Java", "JavaScript", "Spring Boot"];
 const model = ref(options[0]);
+const modelMultiple = ref([]);
 const dense = ref(true);
 const denseOpts = ref(false);
 const titleText = ref("");
-const tagText = ref("");
+
+const stringOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
+
+const tags = ref(stringOptions);
+
+const filterFn = (val: any, update: any) => {
+  if (val === "") {
+    update(() => {
+      tags.value = stringOptions;
+    });
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    tags.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+  })
+};
+
 const writeProc = () => {
   const va = editor.value.getHtmlValue();
   console.log(va);
 };
+
 const moveList = () => {
   router.push({ path: "/board" });
 };
