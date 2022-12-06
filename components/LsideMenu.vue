@@ -41,8 +41,8 @@
         <q-avatar size="56px" class="q-mb-sm">
           <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
         </q-avatar>
-        <div class="text-weight-bold">Razvan Stoenescu</div>
-        <div>@rstoenescu</div>
+        <div class="text-weight-bold">JHG</div>
+        <div>rn1349@naver.com</div>
       </div>
     </q-img>
   </q-drawer>
@@ -56,15 +56,9 @@ const router = useRouter();
 const menuList = ref([
   {
     icon: "inbox",
-    label: "Inbox",
+    label: "Blog",
     separator: true,
     url: "/",
-  },
-  {
-    icon: "send",
-    label: "Outbox",
-    separator: false,
-    url: "/about",
   },
   {
     icon: "table_chart",
@@ -74,9 +68,9 @@ const menuList = ref([
   },
   {
     icon: "table_chart",
-    label: "Test1",
+    label: "about",
     separator: false,
-    url: "/test1",
+    url: "/about",
   },
   {
     icon: "table_chart",

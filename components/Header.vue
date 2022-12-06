@@ -6,7 +6,7 @@
         <q-avatar>
           <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
         </q-avatar>
-        Title
+        블로그 프로젝트
       </q-toolbar-title>
     </q-toolbar>
   </q-header>
