@@ -7,7 +7,7 @@
       <router-view />
     </q-page-container>
 
-    <Footer></Footer>
+    <!-- <Footer></Footer> -->
   </q-layout>
 </template>
 
