@@ -57,32 +57,23 @@ const menuList = ref([
   {
     icon: "inbox",
     label: "Blog",
+    name: "inbox",
     separator: true,
     url: "/",
   },
   {
     icon: "table_chart",
     label: "Board",
+    name: "board",
     separator: false,
     url: "/board",
   },
   {
     icon: "table_chart",
     label: "about",
+    name: "about",
     separator: false,
     url: "/about",
-  },
-  {
-    icon: "table_chart",
-    label: "Test2",
-    separator: false,
-    url: "/test2",
-  },
-  {
-    icon: "table_chart",
-    label: "Test3",
-    separator: false,
-    url: "/test3",
   },
 ]);
 
@@ -92,7 +83,9 @@ const pageMove = (url: string) => {
   router.push({ path: url });
 };
 const isRouteActive = (url: string) => {
-  if (route.path == url) {
+  const currnetPath = router.currentRoute.value.path;
+  const pathChk = "/"+currnetPath.split("/")[1];
+  if (pathChk == url) {
     return true;
   } else {
     return false;
