@@ -6,9 +6,3 @@ declare interface main {
   leftDrawerOpen: boolean;
   loginData: loginData
 }
-declare interface loginData {
-  saveId: boolean;
-  loginChk: boolean;
-  id: string;
-  pw: string;
-}

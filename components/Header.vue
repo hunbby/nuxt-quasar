@@ -54,16 +54,16 @@
       </q-toolbar>
       <q-card-section>
         <div class="column justify-around">
-          <q-input class="q-pa-sm" outlined v-model="loginData.id" label="ID" />
+          <q-input class="q-pa-sm" outlined v-model="loginData.userId" label="ID" />
           <q-input
             class="q-pa-sm"
             outlined
-            v-model="loginData.pw"
+            v-model="loginData.userPw"
             label="PW"
             type="password"
           />
           <q-checkbox
-            v-model="loginData.saveId"
+            v-model="loginData.keepLoggedIn"
             label="아이디 저장"
             style="padding-bottom: 5px"
           />
@@ -84,17 +84,20 @@
 <script setup lang="ts">
 import { useMainStore } from "~/store/main";
 
-const loginData = ref<loginData>({
-  saveId: false,
+const loginData = ref<LoginForm>({
+  keepLoggedIn: false,
   loginChk: false,
-  id: "",
-  pw: "",
+  userId: "",
+  userPw: "",
 });
 
 const main = useMainStore();
 const loginDialog = ref(false);
 
 const login = () => {
+  axios.get("/test/signin").then((data) => {
+    console.log(data);
+  });
   main.test();
 };
 
