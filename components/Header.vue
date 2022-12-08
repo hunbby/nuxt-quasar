@@ -84,13 +84,6 @@
 <script setup lang="ts">
 import { useMainStore } from "~/store/main";
 
-interface loginData {
-  saveId: boolean;
-  loginChk: boolean;
-  id: string;
-  pw: string;
-}
-
 const loginData = ref<loginData>({
   saveId: false,
   loginChk: false,

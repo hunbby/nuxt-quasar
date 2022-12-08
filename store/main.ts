@@ -1,17 +1,5 @@
 import { defineStore } from "pinia";
 
-interface main {
-  counter: number;
-  name: string;
-  leftDrawerOpen: boolean;
-  loginData: {
-    saveId: boolean;
-    loginChk: boolean;
-    id: string;
-    pw: string;
-  };
-}
-
 export const useMainStore = defineStore("main", {
   state: (): main => ({
     counter: 0,
