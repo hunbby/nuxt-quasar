@@ -8,7 +8,7 @@
         </q-avatar>
         블로그 프로젝트
       </q-toolbar-title>
-      <div v-if="loginChk">
+      <div v-if="main.loginData.loginChk">
         <q-btn flat>
           rn1349 임시 아이디
           <q-avatar size="30px" style="margin-left: 10px">
@@ -28,6 +28,7 @@
                   icon="login"
                   push
                   v-close-popup
+                  @click="logout"
                 />
               </div>
             </div>
@@ -35,14 +36,76 @@
         </q-btn>
       </div>
       <div v-else>
-        <q-btn flat icon="login">로그인</q-btn>
+        <q-btn flat icon="login" @click="loginDialog = true">로그인</q-btn>
         <q-btn flat icon="how_to_reg">회원가입</q-btn>
       </div>
     </q-toolbar>
   </q-header>
+  <q-dialog v-model="loginDialog" persistent>
+    <q-card style="width: 400px">
+      <q-toolbar class="q-pt-sm">
+        <q-avatar>
+          <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+        </q-avatar>
+        <q-toolbar-title>
+          <span class="text-weight-bold" style="font-size: 30px">로그인</span>
+        </q-toolbar-title>
+        <q-btn flat round dense icon="close" v-close-popup />
+      </q-toolbar>
+      <q-card-section>
+        <div class="column justify-around">
+          <q-input class="q-pa-sm" outlined v-model="loginData.id" label="ID" />
+          <q-input
+            class="q-pa-sm"
+            outlined
+            v-model="loginData.pw"
+            label="PW"
+            type="password"
+          />
+          <q-checkbox
+            v-model="loginData.saveId"
+            label="아이디 저장"
+            style="padding-bottom: 5px"
+          />
+        </div>
+        <div vertical align="center">
+          <q-btn
+            class="q-pa-sm"
+            color="primary"
+            label="로그인"
+            style="width: 96%"
+            @click="login"
+          />
+        </div>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 <script setup lang="ts">
 import { useMainStore } from "~/store/main";
+
+interface loginData {
+  saveId: boolean;
+  loginChk: boolean;
+  id: string;
+  pw: string;
+}
+
+const loginData = ref<loginData>({
+  saveId: false,
+  loginChk: false,
+  id: "",
+  pw: "",
+});
+
 const main = useMainStore();
-const loginChk = ref(false);
+const loginDialog = ref(false);
+
+const login = () => {
+  main.test();
+};
+
+const logout = () => {
+  main.test();
+};
 </script>
