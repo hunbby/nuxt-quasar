@@ -8,9 +8,9 @@
         </q-avatar>
         블로그 프로젝트
       </q-toolbar-title>
-      <div v-if="main.loginData.loginChk">
+      <div v-if="auth.logginInChekc">
         <q-btn flat>
-          rn1349 임시 아이디
+          {{ auth.user?.userId }}
           <q-avatar size="30px" style="margin-left: 10px">
             <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
           </q-avatar>
@@ -54,7 +54,12 @@
       </q-toolbar>
       <q-card-section>
         <div class="column justify-around">
-          <q-input class="q-pa-sm" outlined v-model="loginData.userId" label="ID" />
+          <q-input
+            class="q-pa-sm"
+            outlined
+            v-model="loginData.userId"
+            label="ID"
+          />
           <q-input
             class="q-pa-sm"
             outlined
@@ -82,26 +87,38 @@
   </q-dialog>
 </template>
 <script setup lang="ts">
-import { useMainStore } from "~/store/main";
+import { useMainStore } from "../stores/main";
+import { useAuthStore } from "../stores/auth";
 
 const loginData = ref<LoginForm>({
-  keepLoggedIn: false,
-  loginChk: false,
   userId: "",
   userPw: "",
+  keepLoggedIn: false,
 });
 
 const main = useMainStore();
+const auth = useAuthStore();
+
 const loginDialog = ref(false);
 
 const login = () => {
-  axios.get("/test/signin").then((data) => {
-    console.log(data);
-  });
-  main.test();
+  auth.login(loginData.value).then(
+    (res) => {
+      if (res.resltCd == "0000") {
+        console.log("auth 모듈 로그인 호출 되었습니다.");
+        loginDialog.value = false;
+      } else {
+        alert(res.data.msg);
+      }
+    },
+    (error) => {
+      console.log(error);
+      return false;
+    }
+  );
 };
 
 const logout = () => {
-  main.test();
+  auth.logout();
 };
 </script>

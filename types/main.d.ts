@@ -4,5 +4,4 @@ declare interface main {
   counter: number;
   name: string;
   leftDrawerOpen: boolean;
-  loginData: loginData
 }

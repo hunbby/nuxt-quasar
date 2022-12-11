@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMainStore } from "~/store/main";
+import { useMainStore } from "../stores/main";
 const main = useMainStore();
 const route = useRoute();
 const router = useRouter();
@@ -84,7 +84,7 @@ const pageMove = (url: string) => {
 };
 const isRouteActive = (url: string) => {
   const currnetPath = router.currentRoute.value.path;
-  const pathChk = "/"+currnetPath.split("/")[1];
+  const pathChk = "/" + currnetPath.split("/")[1];
   if (pathChk == url) {
     return true;
   } else {
