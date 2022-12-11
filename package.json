@@ -2,7 +2,9 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --port 18080",
+    "dev": "cross-env TEST=development nuxt dev --port 18080",
+    "serve": "cross-env TEST=production nuxt dev --port 18080",
+    "start": "cross-env TEST_ENV=production node .output/server/index.mjs",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -22,9 +24,11 @@
     "vue-eslint-parser": "^9.1.0"
   },
   "dependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "@pinia/nuxt": "^0.4.6",
     "@toast-ui/editor": "^3.2.1",
     "axios": "^1.2.1",
+    "cross-env": "^7.0.3",
     "pinia": "^2.0.27",
     "quasar": "^2.10.2",
     "vue": "^3.2.45"

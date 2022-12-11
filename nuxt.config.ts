@@ -1,4 +1,5 @@
 import { quasar, transformAssetUrls } from "@quasar/vite-plugin";
+require("dotenv").config();
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
