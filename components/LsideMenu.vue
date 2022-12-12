@@ -14,21 +14,23 @@
       "
     >
       <q-list>
-        <template v-for="(menuItem, index) in menuList" :key="index">
-          <q-item
-            clickable
-            :active="isRouteActive(menuItem.url)"
-            v-ripple
-            @click="pageMove(menuItem.url)"
-          >
-            <q-item-section avatar>
-              <q-icon :name="menuItem.icon" />
-            </q-item-section>
-            <q-item-section>
-              {{ menuItem.label }}
-            </q-item-section>
-          </q-item>
-          <q-separator :key="'sep' + index" v-if="menuItem.separator" />
+        <template v-for="(menuItem, index) in menuList2" :key="index">
+          <template v-for="(item, i) in menuItem.subMenus" :key="i">
+            <q-item
+              clickable
+              :active="isRouteActive(item.url)"
+              v-ripple
+              @click="pageMove(item.url)"
+            >
+              <q-item-section avatar>
+                <q-icon :name="item.icon" />
+              </q-item-section>
+              <q-item-section>
+                {{ item.boardName }}
+              </q-item-section>
+            </q-item>
+          </template>
+          <q-separator  />
         </template>
       </q-list>
     </q-scroll-area>
@@ -51,33 +53,14 @@
 <script setup lang="ts">
 import { useMainStore } from "../stores/main";
 const main = useMainStore();
-const route = useRoute();
 const router = useRouter();
-const menuList = ref([
-  {
-    icon: "inbox",
-    label: "Blog",
-    name: "inbox",
-    separator: true,
-    url: "/",
-  },
-  {
-    icon: "table_chart",
-    label: "Board",
-    name: "board",
-    separator: false,
-    url: "/board",
-  },
-  {
-    icon: "table_chart",
-    label: "about",
-    name: "about",
-    separator: false,
-    url: "/about",
-  },
-]);
 
-onMounted(() => {});
+const menuList2 = ref<any>([]);
+onMounted(() => {
+  axios.post("/boardMenu", {}).then((res) => {
+    menuList2.value = res.data.menus;
+  });
+});
 
 const pageMove = (url: string) => {
   router.push({ path: url });

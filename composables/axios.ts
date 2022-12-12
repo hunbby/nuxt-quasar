@@ -4,7 +4,7 @@ import TokenService from "@/services/token/token-service";
 // import { useStore } from 'vuex'
 // import { store } from '@/store/index'
 
-const baseURL = import.meta.env.VITE_APP_BASE_API as string | undefined;
+const baseURL = import.meta.env.VITE_APP_BASE_API_LOCAL as string | undefined;
 
 axios.defaults.baseURL = baseURL;
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=utf-8";

@@ -2,7 +2,6 @@
   <div class="q-pa-md">
     <BoardList></BoardList>
   </div>
-  <NuxtPage />
 </template>
 <style lang="sass" scoped>
 .q-pa-md

@@ -5,9 +5,11 @@
         style="padding-bottom: 5px"
         outlined
         v-model="boardList"
-        :options="options"
+        :options="boardOptions"
         :dense="dense"
         :options-dense="denseOpts"
+        emit-value
+        map-options
       >
         <template v-slot:prepend>
           <q-icon name="event" />
@@ -67,8 +69,7 @@
 const modelValue = ref("test");
 const editor = ref();
 const router = useRouter();
-const options = ["Vue", "Java", "JavaScript", "Spring Boot"];
-const boardList = ref(options[0]);
+
 const tagList = ref([]);
 const dense = ref(true);
 const denseOpts = ref(false);
@@ -77,6 +78,28 @@ const titleText = ref("");
 const tagOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
 
 const filterOptions = ref(tagOptions);
+
+const boardOptions = ref<any>([]);
+const boardList = ref('');
+
+onMounted(() => {
+  axios.post("/boardAllSubMenu", {}).then((res) => {
+    const currnetPath = router.currentRoute.value.path;
+    const pathChk = "/" + currnetPath.split("/")[1];
+    const subMenuList = res.data.list;
+    subMenuList.forEach((menu:any) => {
+      let data = {
+        label: menu.boardName,
+        value: menu.boardSeq,
+      }
+      if (pathChk == menu.url) { 
+        boardList.value = menu.boardName;
+      }
+      boardOptions.value.push(data);
+    });
+    console.log(boardOptions.value);
+  });
+});
 
 const filterFn = (val: any, update: any) => {
   update(() => {
@@ -101,10 +124,10 @@ const createValue = (val: any, done: any) => {
 
 const writeProc = () => {
   const va = editor.value.getHtmlValue();
-  console.log('boardList',boardList.value);
-  console.log('editor',va);
-  console.log('titleText', titleText.value);
-  console.log('modelMultiple',tagList.value);
+  console.log("boardSeq", boardList.value);
+  console.log("editor", va);
+  console.log("titleText", titleText.value);
+  console.log("modelMultiple", tagList.value);
 };
 
 const moveList = () => {

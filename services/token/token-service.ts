@@ -65,14 +65,18 @@ class TokenService {
   }
 
   localStorageGetUserData() {
-    let result = null;
-    const user = localStorage.getItem("user");
+    const authTmp = localStorage.getItem("auth");
+    let auth = null;
+    if (authTmp) { 
+      auth = JSON.parse(authTmp);
+    }
+    const user = auth.user;
+
     if (user !== null) {
-      result = JSON.parse(user);
+      return user;
     } else {
       return null;
     }
-    return result;
   }
 }
 

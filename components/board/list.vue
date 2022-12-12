@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="q-pa-sm row justify-end">
-      <q-btn
+      <q-btn v-if="auth.logginInChekc"
         icon="create"
         color="white"
         text-color="black"
@@ -38,7 +38,12 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useAuthStore } from "../../stores/auth"
+
 import data from "@/data/data.json";
+
+const auth = useAuthStore();
+
 const users = data.slice(0, 5);
 const current = ref(3);
 const router = useRouter();

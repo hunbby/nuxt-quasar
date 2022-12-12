@@ -3,7 +3,7 @@ class AuthService {
     const result1 = await axios
       .post("/signin", _user)
       .then((res) => {
-        console.log("login result : ", res);
+        console.log("login result : ", res.data);
         return res.data;
       })
       .catch((error) => {
