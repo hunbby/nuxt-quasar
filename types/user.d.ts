@@ -9,7 +9,6 @@ declare interface User {
   userId: string;
   userPw: string;
   pwChangeDt: string;
-  creationId: string;
   role: string;
   accessToken: string | undefined;
   refreshToken: string;

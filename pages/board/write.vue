@@ -66,6 +66,9 @@
   </q-page>
 </template>
 <script setup lang="ts">
+import { useAuthStore } from "../../stores/auth";
+const auth = useAuthStore();
+
 const modelValue = ref("test");
 const editor = ref();
 const router = useRouter();
@@ -80,19 +83,19 @@ const tagOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
 const filterOptions = ref(tagOptions);
 
 const boardOptions = ref<any>([]);
-const boardList = ref('');
+const boardList = ref("");
 
 onMounted(() => {
   axios.post("/boardAllSubMenu", {}).then((res) => {
     const currnetPath = router.currentRoute.value.path;
     const pathChk = "/" + currnetPath.split("/")[1];
     const subMenuList = res.data.list;
-    subMenuList.forEach((menu:any) => {
+    subMenuList.forEach((menu: any) => {
       let data = {
         label: menu.boardName,
         value: menu.boardSeq,
-      }
-      if (pathChk == menu.url) { 
+      };
+      if (pathChk == menu.url) {
         boardList.value = menu.boardName;
       }
       boardOptions.value.push(data);
@@ -101,6 +104,7 @@ onMounted(() => {
   });
 });
 
+// tag 필터
 const filterFn = (val: any, update: any) => {
   update(() => {
     if (val === "") {
@@ -114,6 +118,7 @@ const filterFn = (val: any, update: any) => {
   });
 };
 
+// tag 중복 체크
 const createValue = (val: any, done: any) => {
   if (val.length > 2) {
     if (!tagOptions.includes(val)) {
@@ -122,14 +127,42 @@ const createValue = (val: any, done: any) => {
   }
 };
 
+// 게시글 등록
 const writeProc = () => {
-  const va = editor.value.getHtmlValue();
-  console.log("boardSeq", boardList.value);
-  console.log("editor", va);
-  console.log("titleText", titleText.value);
-  console.log("modelMultiple", tagList.value);
+  const chk = validateChk();
+  if (chk) {
+    const editorValue = editor.value.getHtmlValue();
+    const user = auth.userInfo;
+
+    const data = {
+      boardSeq: boardList.value,
+      title: titleText.value,
+      content: editorValue,
+      tags: tagList.value.toString(),
+      crreationId: user?.userId,
+      modifiedId: user?.userId,
+    };
+    console.log("data", data);
+  }
 };
 
+const validateChk = () => {
+  if (titleText.value == "" || titleText.value == null) {
+    alert("제목을 입력하세요");
+    return false;
+  }
+  if (modelValue.value == "" || modelValue.value == null) {
+    alert("내용을 입력하세요");
+    return false;
+  }
+  if (tagList.value.toString() == "" || tagList.value.toString() == null) {
+    alert("테그를 입력하세요");
+    return false;
+  }
+  return true;
+};
+
+// 페이지 이동
 const moveList = () => {
   router.push({ path: "/board" });
 };

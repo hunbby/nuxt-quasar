@@ -10,7 +10,6 @@ export const useAuthStore = defineStore("auth", {
       userId: "",
       userPw: "",
       pwChangeDt: "",
-      creationId: "",
       role: "",
       accessToken: "",
       refreshToken: "",
@@ -19,6 +18,9 @@ export const useAuthStore = defineStore("auth", {
   getters: {
     logginInChekc(): boolean {
       return this.status.loggedIn;
+    },
+    userInfo(): User | null {
+      return this.user;
     },
   },
   actions: {
