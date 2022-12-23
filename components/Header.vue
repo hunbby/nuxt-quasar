@@ -107,6 +107,7 @@ const login = () => {
       if (res.resltCd == "0000") {
         console.log("auth 모듈 로그인 호출 되었습니다.");
         loginDialog.value = false;
+        clearloginData();
       } else {
         alert(res.data.msg);
       }
@@ -121,4 +122,12 @@ const login = () => {
 const logout = () => {
   auth.logout();
 };
+
+const clearloginData = () => {
+  loginData.value = {
+    userId: "",
+    userPw: "",
+    keepLoggedIn: false,
+  }
+}
 </script>
