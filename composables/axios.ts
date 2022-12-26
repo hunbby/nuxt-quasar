@@ -46,11 +46,11 @@ axios.interceptors.response.use(
     console.log("response interceptor ERROR", error);
 
     const originalConfig = error.config;
-    // if (error.response.status == 401) {
-    //   if (originalConfig.url !== '/signin') {
-    //     TokenService.refreshtokenCheck()
-    //   }
-    // }
+    if (error.response.status == 401) {
+      if (originalConfig.url !== '/signin') {
+        TokenService.refreshtokenCheck()
+      }
+    }
 
     return Promise.reject(error);
   }

@@ -72,6 +72,7 @@
   </q-page>
 </template>
 <script setup lang="ts">
+import { rawListeners } from "process";
 import { useAuthStore } from "../../stores/auth";
 const auth = useAuthStore();
 const router = useRouter();
@@ -100,7 +101,11 @@ const filterOptions = ref(tagOptions);
 const open = ref(false);
 const popMsg = ref("");
 
+// 게시글 저장 성공여부
+const resltCd = ref(false);
+
 onMounted(() => {
+  resltCd.value = false;
   axios.post("/boardAllSubMenu", {}).then((res) => {
     const currnetPath = router.currentRoute.value.path;
     const pathChk = "/" + currnetPath.split("/")[1];
@@ -111,11 +116,10 @@ onMounted(() => {
         value: menu.boardSeq,
       };
       if (pathChk == menu.url) {
-        boardList.value = menu.boardName;
+        boardList.value = menu.boardSeq;
       }
       boardOptions.value.push(data);
     });
-    console.log(boardOptions.value);
   });
 });
 
@@ -151,14 +155,32 @@ const writeProc = () => {
     const user = auth.userInfo;
 
     const data = {
-      boardSeq: boardList.value,
+      boardSeq: Number(boardList.value),
       title: titleText.value,
       content: editorValue,
       tags: tagList.value.toString(),
       crreationId: user?.userId,
       modifiedId: user?.userId,
     };
-    console.log("data", data);
+
+    axios
+      .post("/boardInert", data)
+      .then((res) => {
+        if (res.data.resltCd == "0000") {
+          popMsg.value = "정상 처리 되었습니다.";
+          open.value = true;
+          resltCd.value = true;
+        } else {
+          popMsg.value = "등록중 오류가 발생하였습니다.";
+          open.value = true;
+          resltCd.value = false;
+        }
+      })
+      .catch((err) => {
+        popMsg.value = "등록중 오류가 발생하였습니다.";
+        open.value = true;
+        resltCd.value = false;
+      });
   }
 };
 
@@ -180,6 +202,9 @@ const validateChk = () => {
 
 const popupClose = () => {
   open.value = false;
+  if (resltCd) {
+    router.push({ path: "/board" });
+  }
 };
 
 // 페이지 이동
