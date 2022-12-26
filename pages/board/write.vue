@@ -63,27 +63,42 @@
         />
       </div>
     </div>
+    <PopupAlert
+      :title="'등록'"
+      :open="open"
+      :msg="popMsg"
+      @close="popupClose"
+    />
   </q-page>
 </template>
 <script setup lang="ts">
 import { useAuthStore } from "../../stores/auth";
 const auth = useAuthStore();
-
-const modelValue = ref("test");
-const editor = ref();
 const router = useRouter();
 
-const tagList = ref([]);
+// tui 에디터
+const editor = ref();
+const modelValue = ref("test");
+
+// 퀘이사 dense 전체 적용
 const dense = ref(true);
 const denseOpts = ref(false);
-const titleText = ref("");
 
-const tagOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
-
-const filterOptions = ref(tagOptions);
-
+// 게시판 목록
 const boardOptions = ref<any>([]);
 const boardList = ref("");
+
+// 타이틀
+const titleText = ref("");
+
+// 테그 관련
+const tagList = ref([]);
+const tagOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
+const filterOptions = ref(tagOptions);
+
+// Alert 팝업
+const open = ref(false);
+const popMsg = ref("");
 
 onMounted(() => {
   axios.post("/boardAllSubMenu", {}).then((res) => {
@@ -130,7 +145,8 @@ const createValue = (val: any, done: any) => {
 // 게시글 등록
 const writeProc = () => {
   const chk = validateChk();
-  if (chk) {
+  open.value = chk;
+  if (!chk) {
     const editorValue = editor.value.getHtmlValue();
     const user = auth.userInfo;
 
@@ -148,18 +164,22 @@ const writeProc = () => {
 
 const validateChk = () => {
   if (titleText.value == "" || titleText.value == null) {
-    alert("제목을 입력하세요");
-    return false;
+    popMsg.value = "제목을 입력하세요";
+    return true;
   }
   if (modelValue.value == "" || modelValue.value == null) {
-    alert("내용을 입력하세요");
-    return false;
+    popMsg.value = "내용을 입력하세요";
+    return true;
   }
   if (tagList.value.toString() == "" || tagList.value.toString() == null) {
-    alert("테그를 입력하세요");
-    return false;
+    popMsg.value = "테그를 입력하세요";
+    return true;
   }
-  return true;
+  return false;
+};
+
+const popupClose = () => {
+  open.value = false;
 };
 
 // 페이지 이동

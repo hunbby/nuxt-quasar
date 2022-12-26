@@ -71,7 +71,7 @@ class TokenService {
       auth = JSON.parse(authTmp).user;
     }
     if (auth) {
-      return auth.user;
+      return auth;
     } else {
       return null;
     }

@@ -5,6 +5,8 @@
 import { PropType } from "vue";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/editor";
+import FileService from "../../services/file/file-service";
+import ImageContainer from "./ImageContainer.vue";
 
 const props = defineProps({
   modelValue: {
@@ -28,6 +30,8 @@ const props = defineProps({
     default: true,
   },
 });
+
+const fileData = reactive<any>([]);
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -56,22 +60,22 @@ onMounted(() => {
           },
       },
       hooks: {
-        // addImageBlobHook: (file, callback) => {
-        //   console.log(file);
-        //   const param = new FormData();
-        //   param.append("upload", file);
-        //   FileService.fileUpload(param).then((result) => {
-        //     const baseUrl = import.meta.env.VITE_APP_BASE_API;
-        //     const fileLocation = baseUrl + result.data.filePath;
-        //     const fileSeq = result.data.fileSeq;
-        //     const dataSet = {
-        //       fileSeq: fileSeq.toString(),
-        //       fileLocation: fileLocation.toString(),
-        //     };
-        //     fileData.push(dataSet);
-        //     callback(fileLocation, dataSet.fileSeq.toString());
-        //   });
-        // },
+        addImageBlobHook: (file, callback) => {
+          console.log(file);
+          const param = new FormData();
+          param.append("upload", file);
+          FileService.fileUpload(param).then((result) => {
+            const baseUrl = import.meta.env.VITE_APP_BASE_API as string | undefined;
+            const fileLocation = baseUrl + result.data.filePath;
+            const fileSeq = result.data.fileSeq;
+            const dataSet = {
+              fileSeq: fileSeq.toString(),
+              fileLocation: fileLocation.toString(),
+            };
+            fileData.push(dataSet);
+            callback(fileLocation, dataSet.fileSeq.toString());
+          });
+        },
       },
     });
   }
