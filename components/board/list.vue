@@ -1,20 +1,23 @@
 <template>
   <div class="table-wrapper">
-    <div v-for="user in users" :key="user.id" class="list_content">
+    <div v-for="data in list" :key="data.batdContetnsSeq" class="list_content">
       <a href="">
-        <strong class="tit_post">{{ user.name }}</strong>
+        <strong class="tit_post">{{ data.title }}</strong>
         <p class="txt_post">
-          {{ user.email }} / {{ user.country }} / {{ user.status }}
+          {{ data.content }}
         </p>
       </a>
       <div class="detail_info">
-        <a href="" class="ling_cate">vue.js</a>
+        <a v-for="tag in data.tags" class="link_cate" @click="tagClick(tag)"
+          >{{ tag }},
+        </a>
         <span class="txt_bar"></span>
-        <span class="txt_date">2022-05-05</span>
+        <span class="txt_date">{{ data.modifiedDt }}</span>
       </div>
     </div>
     <div class="q-pa-sm row justify-end">
-      <q-btn v-if="auth.logginInChekc"
+      <q-btn
+        v-if="auth.logginInChekc"
         icon="create"
         color="white"
         text-color="black"
@@ -38,17 +41,30 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useAuthStore } from "../../stores/auth"
-
-import data from "@/data/data.json";
+import { useAuthStore } from "../../stores/auth";
+import { useMainStore } from "../../stores/main";
 
 const auth = useAuthStore();
+const main = useMainStore();
 
-const users = data.slice(0, 5);
-const current = ref(3);
+const current = ref(1);
+
+const boardSeq = ref(main.getBoardSeq);
+const list = ref();
+onMounted(() => {
+  axios.post("/boardList", { boardSeq: Number(boardSeq.value) }).then((res) => {
+    console.log(res.data);
+    list.value = res.data.list;
+  });
+});
+
 const router = useRouter();
 const moveWritePage = () => {
   router.push({ path: "/board/write" });
+};
+
+const tagClick = (tag: string) => {
+  console.log(tag);
 };
 </script>
 <style lang="sass">

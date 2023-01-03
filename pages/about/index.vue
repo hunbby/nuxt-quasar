@@ -1,29 +1,19 @@
 <template>
-  <TuiEditor></TuiEditor>
-  <q-page class="row items-center justify-evenly">
-    <div>
-      <div>counter:{{ main.counter }}</div>
-      <div>doubleCount:{{ main.doubleCount }}</div>
-      <div>doubleCountPlusOne:{{ main.doubleCountPlusOne }}</div>
-      <div class="q-gutter-sm">
-        <q-btn color="primary" @click="main.increment()" label="add" />
-        <q-btn outline color="primary" @click="main.reset()" label="reset" />
-      </div>
-    </div>
-  </q-page>
+  <div class="q-pa-md">
+    <BoardList></BoardList>
+  </div>
 </template>
 <script setup lang="ts">
-import { useMainStore } from "../../stores/main";
+const route = useRoute();
 
-const main = useMainStore();
-
-watch(main, () => {
-  return sessionStorage.setItem("counter", main.counter.toString());
-});
-
+const boardSeq = ref();
 onMounted(() => {
-  if (sessionStorage.getItem("counter")) {
-    main.counter = Number(sessionStorage.getItem("counter"));
-  }
+  boardSeq.value = route.query.boardSeq;
+  console.log("list", boardSeq.value);
 });
 </script>
+<style lang="sass" scoped>
+.q-pa-md
+  height: 815px
+  overflow: auto
+</style>

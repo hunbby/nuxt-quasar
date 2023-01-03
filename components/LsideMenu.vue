@@ -20,7 +20,7 @@
               clickable
               :active="isRouteActive(item.url)"
               v-ripple
-              @click="pageMove(item.url)"
+              @click="pageMove(item.url, item.boardSeq)"
             >
               <q-item-section avatar>
                 <q-icon :name="item.icon" />
@@ -30,7 +30,7 @@
               </q-item-section>
             </q-item>
           </template>
-          <q-separator  />
+          <q-separator />
         </template>
       </q-list>
     </q-scroll-area>
@@ -62,8 +62,9 @@ onMounted(() => {
   });
 });
 
-const pageMove = (url: string) => {
+const pageMove = (url: string, boardSeq: number) => {
   router.push({ path: url });
+  main.setBoardSeq(boardSeq);
 };
 const isRouteActive = (url: string) => {
   const currnetPath = router.currentRoute.value.path;

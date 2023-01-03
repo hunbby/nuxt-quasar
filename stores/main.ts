@@ -5,6 +5,7 @@ export const useMainStore = defineStore("main", {
     counter: 0,
     name: "Eduardo",
     leftDrawerOpen: false,
+    boardSeq: 0,
   }),
   getters: {
     doubleCount: (state) => state.counter * 2,
@@ -12,6 +13,9 @@ export const useMainStore = defineStore("main", {
       return this.doubleCount * 2 + 1;
     },
     leftDrawer: (state) => state.leftDrawerOpen,
+    getBoardSeq: (state) => {
+      return state.boardSeq;
+    },
   },
   actions: {
     reset() {
@@ -22,6 +26,9 @@ export const useMainStore = defineStore("main", {
     },
     toggleLeftDrawer() {
       this.leftDrawerOpen = !this.leftDrawerOpen;
+    },
+    setBoardSeq(boardSeq: Number) {
+      this.boardSeq = boardSeq;
     },
   },
 });
