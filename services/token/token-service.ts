@@ -14,7 +14,7 @@ class TokenService {
   updateLocalAccessToken(token: string) {
     const user = this.localStorageGetUserData();
     user.accessToken = token;
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("auth", JSON.stringify(user));
   }
 
   getUser() {
@@ -23,11 +23,11 @@ class TokenService {
 
   setUser(user: User) {
     console.log(JSON.stringify(user));
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("auth", JSON.stringify(user));
   }
 
   removeUser() {
-    localStorage.removeItem("user");
+    localStorage.removeItem("auth");
   }
 
   async refreshtokenCheck() {
@@ -66,12 +66,12 @@ class TokenService {
 
   localStorageGetUserData() {
     const authTmp = localStorage.getItem("auth");
-    let auth = null;
+    let user = null;
     if (authTmp) {
-      auth = JSON.parse(authTmp).user;
+      user = JSON.parse(authTmp).user;
     }
-    if (auth) {
-      return auth;
+    if (user) {
+      return user;
     } else {
       return null;
     }
