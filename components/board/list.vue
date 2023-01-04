@@ -1,7 +1,7 @@
 <template>
   <div class="table-wrapper">
     <div v-for="data in list" :key="data.batdContetnsSeq" class="list_content">
-      <a href="">
+      <a class="list_content_detail">
         <strong class="tit_post">{{ data.title }}</strong>
         <p class="txt_post">
           {{ data.content }}
@@ -83,6 +83,7 @@ const getList = (data: pageData) => {
 };
 
 const moveWritePage = () => {
+  window.scrollTo(0, 0);
   router.push({ path: "/board/write" });
 };
 
@@ -140,11 +141,14 @@ const tagClick = (tag: string) => {
   font-size: 12px
   color: #aaa
 
+.list_content_detail
+  cursor: pointer
 
 .list_content .detail_info .link_cate
   font-size: 13px
   text-decoration: none
   color: #6bacce
+  cursor: pointer
 
 
 .pagination
