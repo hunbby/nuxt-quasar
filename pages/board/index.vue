@@ -1,7 +1,7 @@
 <template>
-  <div class="q-pa-md">
+  <q-page>
     <BoardList></BoardList>
-  </div>
+  </q-page>
 </template>
 <script setup lang="ts"></script>
 <style lang="sass" scoped>

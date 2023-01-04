@@ -27,38 +27,61 @@
     </div>
     <div class="q-pa-sm flex flex-center">
       <q-pagination
-        v-model="current"
-        :max="5"
+        v-model="pageData.page"
+        :max="pageData.total"
+        :max-pages="pageData.lows"
+        :ellipses="false"
+        :boundary-numbers="false"
         direction-links
         boundary-links
-        icon-first="skip_previous"
-        icon-last="skip_next"
-        icon-prev="fast_rewind"
-        icon-next="fast_forward"
         gutter="20px"
+        @click="pageMove"
       />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { useAuthStore } from "../../stores/auth";
-import { useMainStore } from "../../stores/main";
+import { useBoardStore } from "../../stores/board";
 
 const auth = useAuthStore();
-const main = useMainStore();
+const board = useBoardStore();
+const router = useRouter();
 
-const current = ref(1);
-
-const boardSeq = ref(main.getBoardSeq);
-const list = ref();
-onMounted(() => {
-  axios.post("/boardList", { boardSeq: Number(boardSeq.value) }).then((res) => {
-    console.log(res.data);
-    list.value = res.data.list;
-  });
+// 페이징
+const pageData = ref<pageData>({
+  boardSeq: board.getBoardSeq,
+  lows: 8,
+  page: 1,
+  total: 1,
 });
 
-const router = useRouter();
+// 게시판 리스트
+const list = ref();
+
+const setMax = (total: number, maxPage: number) => {
+  return Math.ceil(total / maxPage);
+};
+
+onMounted(() => {
+  pageData.value.boardSeq = board.getBoardSeq;
+  getList(pageData.value);
+});
+
+const pageMove = () => {
+  board.setPageNo(pageData.value.page);
+  getList(pageData.value);
+  window.scrollTo(0, 0);
+};
+
+const getList = (data: pageData) => {
+  axios.post("/boardList", data).then((res) => {
+    board.setTotalCount(res.data.total);
+    list.value = res.data.list;
+    pageData.value.total = setMax(board.getTotalCount, pageData.value.lows);
+  });
+};
+
 const moveWritePage = () => {
   router.push({ path: "/board/write" });
 };
@@ -68,9 +91,9 @@ const tagClick = (tag: string) => {
 };
 </script>
 <style lang="sass">
-.va-table
-  width: 100%
-
+.table-wrapper
+  padding-left: 20px
+  padding-right: 20px
 
 .list_content
   padding: 18px 0 20px

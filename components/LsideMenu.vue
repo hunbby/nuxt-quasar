@@ -52,7 +52,9 @@
 
 <script setup lang="ts">
 import { useMainStore } from "../stores/main";
+import { useBoardStore } from "../stores/board";
 const main = useMainStore();
+const board = useBoardStore();
 const router = useRouter();
 
 const menuList2 = ref<any>([]);
@@ -64,7 +66,7 @@ onMounted(() => {
 
 const pageMove = (url: string, boardSeq: number) => {
   router.push({ path: url });
-  main.setBoardSeq(boardSeq);
+  board.setBoardSeq(boardSeq);
 };
 const isRouteActive = (url: string) => {
   const currnetPath = router.currentRoute.value.path;
