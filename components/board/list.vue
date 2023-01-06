@@ -65,6 +65,7 @@ const setMax = (total: number, maxPage: number) => {
 
 onMounted(() => {
   pageData.value.boardSeq = board.getBoardSeq;
+  pageData.value.page = board.getPageNo;
   if (pageData.value != null || pageData.value != "") {
     getList(pageData.value);
   }
