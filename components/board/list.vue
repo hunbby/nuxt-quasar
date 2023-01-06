@@ -77,8 +77,8 @@ const pageMove = () => {
   window.scrollTo(0, 0);
 };
 
-const getList = (data: pageData) => {
-  axios
+const getList = async (data: pageData) => {
+  await axios
     .post("/boardList", data)
     .then((res) => {
       board.setTotalCount(res.data.total);
