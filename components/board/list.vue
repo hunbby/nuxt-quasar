@@ -44,6 +44,8 @@
 import { useAuthStore } from "../../stores/auth";
 import { useBoardStore } from "../../stores/board";
 
+import BoardServcie from "../../services/board/board-service";
+
 const auth = useAuthStore();
 const board = useBoardStore();
 const router = useRouter();
@@ -77,16 +79,16 @@ const pageMove = () => {
   window.scrollTo(0, 0);
 };
 
-const getList = async (data: pageData) => {
-  await axios
-    .post("/boardList", data)
+const getList = (data: pageData) => {
+  BoardServcie.getList(data)
     .then((res) => {
-      board.setTotalCount(res.data.total);
-      list.value = res.data.list;
+      console.log("res", res);
+      board.setTotalCount(res.total);
+      list.value = res.list;
       pageData.value.total = setMax(board.getTotalCount, pageData.value.lows);
     })
     .catch((err) => {
-      console.log("err", err);
+      console.log(err);
     });
 };
 
@@ -100,6 +102,9 @@ const tagClick = (tag: string) => {
 };
 
 const detailPage = (boardContentsSeq: number) => {
+  // return navigateTo({
+  //   path: "/board/viewer/" + boardContentsSeq,
+  // });
   router.push({ path: "/board/viewer/" + boardContentsSeq });
 };
 </script>

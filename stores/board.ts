@@ -17,6 +17,9 @@ export const useBoardStore = defineStore("board", {
     getPageNo: (state) => {
       return state.page;
     },
+    getPageData: (state) => {
+      return state;
+    },
   },
   actions: {
     setBoardSeq(boardSeq: number) {

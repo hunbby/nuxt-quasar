@@ -65,8 +65,15 @@ onMounted(() => {
 });
 
 const pageMove = (url: string, boardSeq: number) => {
-  router.push({ path: url });
+  // pageData 초기화
   board.setBoardSeq(boardSeq);
+  board.setPageNo(1);
+  const currnetPath = router.currentRoute.value.path;
+  if (url == currnetPath) {
+    history.go();
+  } else {
+    router.push({ path: url });
+  }
 };
 const isRouteActive = (url: string) => {
   const currnetPath = router.currentRoute.value.path;

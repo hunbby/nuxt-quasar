@@ -4,3 +4,8 @@ declare interface pageData {
   boardSeq: number;
   total: number;
 }
+
+declare interface boardDetail {
+  boardSeq: number;
+  boardContentsSeq: number;
+}

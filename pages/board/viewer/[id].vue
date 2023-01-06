@@ -1,9 +1,13 @@
 <template>
-  <q-page> {{ $route.params }} - 페이지 테스트 - </q-page>
+  <q-page>
+    <span> {{ $route.params }}</span>
+    <span>페이지 테스트</span> - {{ route.params }}
+  </q-page>
 </template>
 <script setup lang="ts">
-const { params } = useRoute();
-const router = useRouter();
+import { useRoute } from "vue-router";
+const route = useRoute();
+console.log(route.params.name);
 </script>
 <style lang="sass" scoped>
 .q-pa-md
