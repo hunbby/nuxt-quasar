@@ -1,7 +1,7 @@
 <template>
   <div class="table-wrapper">
-    <div v-for="data in list" :key="data.batdContetnsSeq" class="list_content">
-      <a class="list_content_detail">
+    <div v-for="data in list" :key="data.boardContentsSeq" class="list_content">
+      <a class="list_content_detail" @click="detailPage(data.boardContentsSeq)">
         <strong class="tit_post">{{ data.title }}</strong>
         <p class="txt_post">
           {{ data.content }}
@@ -65,7 +65,9 @@ const setMax = (total: number, maxPage: number) => {
 
 onMounted(() => {
   pageData.value.boardSeq = board.getBoardSeq;
-  getList(pageData.value);
+  if (pageData.value != null || pageData.value != "") {
+    getList(pageData.value);
+  }
 });
 
 const pageMove = () => {
@@ -75,11 +77,16 @@ const pageMove = () => {
 };
 
 const getList = (data: pageData) => {
-  axios.post("/boardList", data).then((res) => {
-    board.setTotalCount(res.data.total);
-    list.value = res.data.list;
-    pageData.value.total = setMax(board.getTotalCount, pageData.value.lows);
-  });
+  axios
+    .post("/boardList", data)
+    .then((res) => {
+      board.setTotalCount(res.data.total);
+      list.value = res.data.list;
+      pageData.value.total = setMax(board.getTotalCount, pageData.value.lows);
+    })
+    .catch((err) => {
+      console.log("err", err);
+    });
 };
 
 const moveWritePage = () => {
@@ -89,6 +96,10 @@ const moveWritePage = () => {
 
 const tagClick = (tag: string) => {
   console.log(tag);
+};
+
+const detailPage = (boardContentsSeq: number) => {
+  router.push({ path: "/board/viewer/" + boardContentsSeq });
 };
 </script>
 <style lang="sass">
