@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <BoardList></BoardList>
+    <BoardList :lows="8"></BoardList>
   </q-page>
 </template>
 <script setup lang="ts">

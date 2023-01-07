@@ -1,13 +1,30 @@
 <template>
   <q-page>
-    <span> {{ $route.params }}</span>
-    <span>페이지 테스트</span> - {{ route.params }}
+    <div class="q-pa-xl">
+      <TuiViewer :value="htmlValue"></TuiViewer>
+    </div>
   </q-page>
 </template>
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import BoardServcie from "../../../services/board/board-service";
 const route = useRoute();
-console.log(route.params.name);
+
+const htmlValue = ref();
+
+const detailData = ref<boardDetail>({
+  boardContentsSeq: Number(route.params.id),
+});
+onMounted(() => {
+  BoardServcie.getDatail(detailData.value)
+    .then((res) => {
+      console.log(res);
+      htmlValue.value = res.content;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 </script>
 <style lang="sass" scoped>
 .q-pa-md

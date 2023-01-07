@@ -6,6 +6,5 @@ declare interface pageData {
 }
 
 declare interface boardDetail {
-  boardSeq: number;
   boardContentsSeq: number;
 }

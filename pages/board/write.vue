@@ -79,7 +79,7 @@ const router = useRouter();
 
 // tui 에디터
 const editor = ref();
-const modelValue = ref("test");
+const modelValue = ref("<p>test</p>");
 
 // 퀘이사 dense 전체 적용
 const dense = ref(true);
