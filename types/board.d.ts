@@ -8,3 +8,8 @@ declare interface pageData {
 declare interface boardDetail {
   boardContentsSeq: number;
 }
+
+declare interface archiveData {
+  id: string;
+  name: string;
+}

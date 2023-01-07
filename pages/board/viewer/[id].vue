@@ -18,7 +18,6 @@ const detailData = ref<boardDetail>({
 onMounted(() => {
   BoardServcie.getDatail(detailData.value)
     .then((res) => {
-      console.log(res);
       htmlValue.value = res.content;
     })
     .catch((err) => {

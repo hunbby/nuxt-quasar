@@ -14,7 +14,9 @@
       >
         <q-scroll-area class="fit">
           <div class="q-pt-lg rside">
-            <div v-for="n in 10" :key="n">Drawer {{ n }} / 50</div>
+            <div v-for="archive in archives" :key="archive.id">
+              <a :href="'#' + archive.id">{{ archive.name }}</a>
+            </div>
           </div>
         </q-scroll-area>
       </q-drawer>
@@ -38,9 +40,22 @@ const { value } = toRefs(props);
 const viewerDiv = ref<HTMLElement>();
 const viewerRef = ref<Viewer>();
 
+const archives = ref<archiveData[]>([]);
+
 watch(value, () => {
   if (viewerRef.value) {
     viewerRef.value.setMarkdown(value.value);
+    document
+      .querySelectorAll(".toastui-editor-contents h1")
+      .forEach((item, index, arr) => {
+        console.log(item);
+        item.id = "subTitle_" + index;
+        let archive: archiveData = {
+          id: "subTitle_" + index,
+          name: item.innerHTML,
+        };
+        archives.value.push(archive);
+      });
   }
 });
 
